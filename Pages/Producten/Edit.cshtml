@@ -1,0 +1,29 @@
+﻿@page "{id:int}"
+@model Lif.Pages.Producten.EditModel
+@{
+    ViewData["Title"] = "Product bewerken";
+}
+
+<h1>Product bewerken</h1>
+
+<form method="post">
+    <input type="hidden" asp-for="Product.Id" />
+
+    <div class="mb-3">
+        <label asp-for="Product.Naam" class="form-label"></label>
+        <input asp-for="Product.Naam" class="form-control" />
+        <span asp-validation-for="Product.Naam" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Product.Prijs" class="form-label"></label>
+        <input asp-for="Product.Prijs" class="form-control" />
+        <span asp-validation-for="Product.Prijs" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Product.Beschrijving" class="form-label"></label>
+        <textarea asp-for="Product.Beschrijving" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">Opslaan</button>
+    <a asp-page="Index" class="btn btn-secondary">Annuleren</a>
+</form>

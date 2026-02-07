@@ -1,0 +1,33 @@
+﻿@page
+@model Lif.Pages.Producten.IndexModel
+@{
+    ViewData["Title"] = "Producten";
+}
+
+<h1>Producten</h1>
+<a class="btn btn-primary mb-3" asp-page="Create">+ Nieuw product</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Naam</th>
+            <th>Prijs</th>
+            <th>Beschrijving</th>
+            <th>Acties</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Producten)
+        {
+            <tr>
+                <td>@item.Naam</td>
+                <td>@item.Prijs.ToString("C")</td>
+                <td>@item.Beschrijving</td>
+                <td>
+                    <a class="btn btn-sm btn-warning" asp-page="Edit" asp-route-id="@item.Id">Bewerken</a>
+                    <a class="btn btn-sm btn-danger" asp-page="Delete" asp-route-id="@item.Id">Verwijderen</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

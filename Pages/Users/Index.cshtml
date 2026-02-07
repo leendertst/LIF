@@ -1,0 +1,27 @@
+﻿@page
+@model Lif.Pages.Admin.Users.IndexModel
+@{
+    ViewData["Title"] = "Gebruikersbeheer";
+}
+
+<h1>Gebruikersbeheer</h1>
+
+<a asp-page="Create" class="btn btn-primary mb-3">Nieuwe gebruiker</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Rollen</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@string.Join(", ", await Model.UserManager.GetRolesAsync(user))</td>
+            </tr>
+        }
+    </tbody>
+</table>

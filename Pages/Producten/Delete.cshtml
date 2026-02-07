@@ -1,0 +1,28 @@
+﻿@page "{id:int}"
+@model Lif.Pages.Producten.DeleteModel
+@{
+    ViewData["Title"] = "Product verwijderen";
+}
+
+<h1>Product verwijderen</h1>
+
+<div class="alert alert-warning">
+    Weet je zeker dat je dit product wilt verwijderen?
+</div>
+
+<dl class="row">
+    <dt class="col-sm-2">Naam</dt>
+    <dd class="col-sm-10">@Model.Product.Naam</dd>
+
+    <dt class="col-sm-2">Prijs</dt>
+    <dd class="col-sm-10">@Model.Product.Prijs.ToString("C")</dd>
+
+    <dt class="col-sm-2">Beschrijving</dt>
+    <dd class="col-sm-10">@Model.Product.Beschrijving</dd>
+</dl>
+
+<form method="post">
+    <input type="hidden" asp-for="Product.Id" />
+    <button type="submit" class="btn btn-danger">Verwijderen</button>
+    <a asp-page="Index" class="btn btn-secondary">Annuleren</a>
+</form>
