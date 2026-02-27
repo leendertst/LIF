@@ -1,5 +1,4 @@
 ﻿using Lif.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,25 +6,42 @@ namespace Lif.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options) 
-        { 
-
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
         }
 
-        public DbSet<Product> Producten { get; set; }
-        //public DbSet<Klantlog> Klantlogs { get; set; }
+        public DbSet<Product> Producten { get; set; } = null!;
+        public DbSet<Klantlog> Klantlogs { get; set; } = null!;
+        public DbSet<KlantlogProduct> KlantlogProducten { get; set; } = null!;
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(builder);
+            base.OnModelCreating(modelBuilder);
 
-            var admin = new IdentityRole("admin");
-            admin.NormalizedName = "admin";
+            // Klantlog configuratie
+            modelBuilder.Entity<Klantlog>()
+                .HasOne(k => k.User)
+                .WithMany()
+                .HasForeignKey(k => k.ApplicationUserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            var client = new IdentityRole("client");
-            client.NormalizedName = "client";
+            modelBuilder.Entity<Klantlog>()
+                .HasIndex(k => new { k.ApplicationUserId, k.WeekNummer, k.Jaar })
+                .IsUnique();
 
-            builder.Entity<IdentityRole>().HasData(admin, client);
+            // KlantlogProduct configuratie
+            modelBuilder.Entity<KlantlogProduct>()
+                .HasOne(kp => kp.Klantlog)
+                .WithMany(k => k.KlantlogProducten)
+                .HasForeignKey(kp => kp.KlantlogId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<KlantlogProduct>()
+                .HasOne(kp => kp.Product)
+                .WithMany()
+                .HasForeignKey(kp => kp.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

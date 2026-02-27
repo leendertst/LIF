@@ -3,72 +3,30 @@
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@if (!SignInManager.IsSignedIn(User))
+{
+    <nav class="navbar navbar-lif navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="" asp-page="/Index">
+                <i class="bi bi-flower1"></i> LIF
+            </a>
 
-<nav class="navbar navbar-lif navbar-expand-lg">
-    <div class="container-fluid">
-        <a class="navbar-brand" asp-area="" asp-page="/Index">
-            <i class="bi bi-flower1"></i> LIF
-        </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-page="/Index">
-                        <i class="bi bi-house-door"></i> Home
-                    </a>
-                </li>
-                @if (SignInManager.IsSignedIn(User))
-                {
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-page="/Producten/Index">
-                            <i class="bi bi-box-seam"></i> Producten
+                        <a class="nav-link" asp-area="" asp-page="/Index">
+                            <i class="bi bi-house-door"></i> Home
                         </a>
                     </li>
-                }
-            </ul>
 
-            <div class="d-flex align-items-center">
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    <div class="dropdown user-dropdown">
-                        <button class="btn dropdown-toggle" type="button" id="userDropdown"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i>
-                            <span>@UserManager.GetUserName(User)</span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li>
-                                <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">
-                                    <i class="bi bi-gear"></i> Profiel
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <form asp-area="Identity" asp-page="/Account/Logout"
-                                      asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post">
-                                    <button type="submit" class="dropdown-item">
-                                        <i class="bi bi-box-arrow-right"></i> Uitloggen
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                }
-                else
-                {
-                    @* <a class="btn btn-lif-outline me-2" asp-area="Identity" asp-page="/Account/Login">
-                        Aanmelden
-                    </a>
-                    <a class="btn btn-lif-primary" asp-area="Identity" asp-page="/Account/Register">
-                        Registreren
-                    </a> *@
-                }
+                </ul>
+
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
+}
