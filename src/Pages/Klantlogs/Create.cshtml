@@ -1,0 +1,154 @@
+@page
+@model Lif.Pages.Klantlogs.CreateModel
+@{
+    ViewData["Title"] = "Nieuwe Klantlog";
+}
+
+<div class="page-header mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a asp-page="Index">
+                    <i class="bi bi-clipboard-check"></i> Klantlogs
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Nieuwe klantlog</li>
+        </ol>
+    </nav>
+    <h1><i class="bi bi-clipboard-plus"></i> Nieuwe Klantlog Aanmaken</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="bi bi-info-circle"></i> Klantlog Informatie
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    @if (Model.IsAdmin)
+                    {
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Als admin maak je een klantlog aan voor een specifieke klant.
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.ApplicationUserId" class="form-label">
+                                <i class="bi bi-person"></i> Selecteer Klant *
+                            </label>
+                            <select asp-for="Input.ApplicationUserId" class="form-select" required>
+                                <option value="">-- Selecteer een klant --</option>
+                                @foreach (var user in Model.AllUsers)
+                                {
+                                    <option value="@user.Id">@user.Email</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Input.ApplicationUserId" class="text-danger"></span>
+                        </div>
+                    }
+
+                    <div class="mb-3">
+                        <label asp-for="Input.Datum" class="form-label">
+                            <i class="bi bi-calendar"></i> Datum *
+                        </label>
+                        <input asp-for="Input.Datum" type="date" class="form-control" required />
+                        <span asp-validation-for="Input.Datum" class="text-danger"></span>
+                        <div class="form-text">
+                            <i class="bi bi-info-circle"></i> 
+                            Het weeknummer wordt automatisch berekend op basis van deze datum.
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Input.Opmerkingen" class="form-label">
+                            <i class="bi bi-chat-left-text"></i> Opmerkingen
+                        </label>
+                        <textarea asp-for="Input.Opmerkingen" class="form-control" rows="4" 
+                                  placeholder="Voeg eventuele opmerkingen toe..."></textarea>
+                        <span asp-validation-for="Input.Opmerkingen" class="text-danger"></span>
+                    </div>
+
+                    <hr class="my-4" />
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a asp-page="Index" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Annuleren
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i> Klantlog Aanmaken
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="alert alert-info mt-4">
+            <i class="bi bi-lightbulb"></i>
+            <strong>Let op:</strong> Na het aanmaken kun je producten toevoegen aan deze klantlog.
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h6 class="mb-0">
+                    <i class="bi bi-question-circle"></i> Hoe werkt het?
+                </h6>
+            </div>
+            <div class="card-body">
+                <ol class="mb-0">
+                    <li class="mb-2">
+                        @if (Model.IsAdmin)
+                        {
+                            <span>Selecteer de klant</span>
+                        }
+                        else
+                        {
+                            <span>Kies de datum</span>
+                        }
+                    </li>
+                    <li class="mb-2">
+                        @if (Model.IsAdmin)
+                        {
+                            <span>Kies de datum voor de klantlog</span>
+                        }
+                        else
+                        {
+                            <span>Voeg eventueel opmerkingen toe</span>
+                        }
+                    </li>
+                    <li class="mb-2">Maak de klantlog aan</li>
+                    <li class="mb-2">Voeg producten toe in het bewerkscherm</li>
+                    <li>Maak de klantlog definitief wanneer klaar</li>
+                </ol>
+
+                <hr />
+
+                <h6 class="mt-3">Statussen:</h6>
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2">
+                        <span class="badge bg-secondary">Concept</span>
+                        <small class="d-block text-muted">Kan bewerkt worden</small>
+                    </li>
+                    <li class="mb-2">
+                        <span class="badge bg-success">Definitief</span>
+                        <small class="d-block text-muted">Niet meer aanpasbaar</small>
+                    </li>
+                    <li>
+                        <span class="badge bg-info">Afgerond</span>
+                        <small class="d-block text-muted">Bestelling voltooid</small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

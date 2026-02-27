@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Lif.Pages.Producten
 {
-    [Authorize]
+    [Authorize(Roles = "admin")] // Alleen admins
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -23,6 +23,8 @@ namespace Lif.Pages.Producten
 
             _context.Producten.Add(Product);
             await _context.SaveChangesAsync();
+            
+            TempData["SuccessMessage"] = $"Product '{Product.Naam}' is succesvol aangemaakt.";
             return RedirectToPage("Index");
         }
     }

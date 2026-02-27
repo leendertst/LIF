@@ -4,67 +4,81 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<aside class="sidebar-lif">
-    <a href="/" class="sidebar-brand text-decoration-none">
-        <i class="bi bi-flower1"></i>
-        <span>LIF Group</span>
-    </a>
-
-    <ul class="nav nav-pills flex-column">
-        <li class="nav-item">
-            <a href="/" class="nav-link">
-                <i class="bi bi-speedometer2"></i>
-                <span>Dashboard</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="/producten" class="nav-link">
-                <i class="bi bi-box-seam"></i>
-                <span>Producten</span>
-            </a>
-        </li>
-        @if (User.IsInRole("admin"))
-        {
+@if (SignInManager.IsSignedIn(User))
+{
+    <aside class="sidebar-lif">
+        <a href="/" class="sidebar-brand text-decoration-none">
+            <i class="bi bi-flower1"></i>
+            <span>LIF Group</span>
+        </a>
+        
+        <ul class="nav nav-pills flex-column">
             <li class="nav-item">
-                <a href="/users" class="nav-link">
-                    <i class="bi bi-people"></i>
-                    <span>Gebruikers</span>
+                <a href="/" class="nav-link">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
                 </a>
             </li>
-        }
-
-        <!-- Voeg toe aan de nav-pills lijst -->
-        <li class="nav-item">
-            <a href="/klantlogs" class="nav-link">
-                <i class="bi bi-clipboard-check"></i>
-                <span>Klantlogs</span>
-            </a>
-        </li>
-    </ul>
-
-    <div class="sidebar-footer mt-auto">
-        <div class="dropdown">
-            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-               id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person-circle me-2" style="font-size: 1.5rem;"></i>
-                <strong>@UserManager.GetUserName(User)</strong>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser">
-                <li>
-                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">
-                        <i class="bi bi-gear"></i> Profiel
+            
+            <li class="nav-item">
+                <a href="/klantlogs" class="nav-link">
+                    <i class="bi bi-clipboard-check"></i>
+                    <span>Mijn Klantlogs</span>
+                </a>
+            </li>
+            
+            @if (User.IsInRole("admin"))
+            {
+                <li class="nav-item">
+                    <a href="/producten" class="nav-link">
+                        <i class="bi bi-box-seam"></i>
+                        <span>Producten</span>
                     </a>
                 </li>
-                <li><hr class="dropdown-divider"></li>
-                <li>
-                    <form asp-area="Identity" asp-page="/Account/Logout"
-                          asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post">
-                        <button type="submit" class="dropdown-item">
-                            <i class="bi bi-box-arrow-right"></i> Uitloggen
-                        </button>
-                    </form>
+                
+                <li class="nav-item">
+                    <a href="/users" class="nav-link">
+                        <i class="bi bi-people"></i>
+                        <span>Gebruikers</span>
+                    </a>
                 </li>
-            </ul>
+            }
+        </ul>
+        
+        <div class="sidebar-footer mt-auto">
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" 
+                   id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle me-2" style="font-size: 1.5rem;"></i>
+                    <div class="d-flex flex-column">
+                        <strong>@UserManager.GetUserName(User)</strong>
+                        @if (User.IsInRole("admin"))
+                        {
+                            <small class="text-muted">Administrator</small>
+                        }
+                        else
+                        {
+                            <small class="text-muted">Gebruiker</small>
+                        }
+                    </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser">
+                    <li>
+                        <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">
+                            <i class="bi bi-gear"></i> Profiel
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <form asp-area="Identity" asp-page="/Account/Logout" 
+                              asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post">
+                            <button type="submit" class="dropdown-item">
+                                <i class="bi bi-box-arrow-right"></i> Uitloggen
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</aside>
+    </aside>
+}

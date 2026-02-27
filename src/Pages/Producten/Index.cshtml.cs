@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lif.Pages.Producten
 {
-    [Authorize]
+    [Authorize(Roles = "admin")] // Alleen admins kunnen producten beheren
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;

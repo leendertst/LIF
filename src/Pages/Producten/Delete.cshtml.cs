@@ -3,9 +3,10 @@ using Lif.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+
 namespace Lif.Pages.Producten
 {
-    [Authorize]
+    [Authorize(Roles = "admin")] // Alleen admins
     public class DeleteModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -34,6 +35,7 @@ namespace Lif.Pages.Producten
             _context.Producten.Remove(product);
             await _context.SaveChangesAsync();
 
+            TempData["SuccessMessage"] = $"Product '{product.Naam}' is succesvol verwijderd.";
             return RedirectToPage("Index");
         }
     }

@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+
 namespace Lif.Pages.Producten
 {
-    [Authorize]
+    [Authorize(Roles = "admin")] // Alleen admins
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -34,6 +35,7 @@ namespace Lif.Pages.Producten
             try
             {
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = $"Product '{Product.Naam}' is succesvol bijgewerkt.";
             }
             catch (DbUpdateConcurrencyException)
             {

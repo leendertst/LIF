@@ -5,12 +5,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
-using System.Linq;
 
 namespace Lif.Pages.Klantlogs
 {
-    [Authorize]
+    [Authorize] // Alle ingelogde gebruikers
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -31,6 +29,7 @@ namespace Lif.Pages.Klantlogs
         public string? SearchUserId { get; set; }
 
         public bool IsAdmin { get; set; }
+        public List<ApplicationUser> AllUsers { get; set; } = new();
 
         public async Task OnGetAsync()
         {
@@ -48,9 +47,16 @@ namespace Lif.Pages.Klantlogs
             {
                 query = query.Where(k => k.ApplicationUserId == currentUserId);
             }
-            else if (!string.IsNullOrEmpty(SearchUserId))
+            else
             {
-                query = query.Where(k => k.ApplicationUserId == SearchUserId);
+                // Admin kan filteren op specifieke gebruiker
+                if (!string.IsNullOrEmpty(SearchUserId))
+                {
+                    query = query.Where(k => k.ApplicationUserId == SearchUserId);
+                }
+                
+                // Laad alle users voor admin dropdown
+                AllUsers = await _userManager.Users.OrderBy(u => u.Email).ToListAsync();
             }
 
             // Filter op status
@@ -75,19 +81,23 @@ namespace Lif.Pages.Klantlogs
             var currentUserId = _userManager.GetUserId(User);
             var isAdmin = User.IsInRole("admin");
 
-            // Check autorisatie
+            // Check autorisatie - user kan alleen eigen logs definitief maken
             if (!isAdmin && klantlog.ApplicationUserId != currentUserId)
                 return Forbid();
 
             if (klantlog.Status != KlantlogStatus.Concept)
-                return BadRequest("Alleen concept klantlogs kunnen definitief gemaakt worden.");
+            {
+                TempData["ErrorMessage"] = "Alleen concept klantlogs kunnen definitief gemaakt worden.";
+                return RedirectToPage();
+            }
 
             klantlog.Status = KlantlogStatus.Definitief;
             klantlog.DefinitiefGemaaktOp = DateTime.Now;
             klantlog.DefinitiefGemaaktDoor = currentUserId;
 
             await _context.SaveChangesAsync();
-
+            
+            TempData["SuccessMessage"] = $"Klantlog week {klantlog.WeekNummer} is definitief gemaakt.";
             return RedirectToPage();
         }
     }
