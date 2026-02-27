@@ -23,19 +23,26 @@
             <li class="nav-item">
                 <a href="/klantlogs" class="nav-link">
                     <i class="bi bi-clipboard-check"></i>
-                    <span>Mijn Klantlogs</span>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <span>Klantlogs</span>
+                    }
+                    else
+                    {
+                        <span>Mijn Klantlogs</span>
+                    }
+                </a>
+            </li>
+            
+            <li class="nav-item">
+                <a href="/producten" class="nav-link">
+                    <i class="bi bi-box-seam"></i>
+                    <span>Producten</span>
                 </a>
             </li>
             
             @if (User.IsInRole("admin"))
             {
-                <li class="nav-item">
-                    <a href="/producten" class="nav-link">
-                        <i class="bi bi-box-seam"></i>
-                        <span>Producten</span>
-                    </a>
-                </li>
-                
                 <li class="nav-item">
                     <a href="/users" class="nav-link">
                         <i class="bi bi-people"></i>

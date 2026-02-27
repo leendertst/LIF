@@ -6,17 +6,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lif.Pages.Producten
 {
-    [Authorize(Roles = "admin")] // Alleen admins kunnen producten beheren
+    [Authorize] // Alle ingelogde gebruikers kunnen producten bekijken
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
         public IndexModel(ApplicationDbContext context) => _context = context;
 
         public IList<Product> Producten { get; set; } = new List<Product>();
+        public bool IsAdmin { get; set; }
 
         public async Task OnGetAsync()
         {
-            Producten = await _context.Producten.ToListAsync();
+            IsAdmin = User.IsInRole("admin");
+            Producten = await _context.Producten.OrderBy(p => p.Naam).ToListAsync();
         }
     }
 }
