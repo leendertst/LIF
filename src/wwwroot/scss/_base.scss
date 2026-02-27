@@ -1,27 +1,44 @@
 // Base styles
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 html {
-  font-size: 14px;
-  position: relative;
-  min-height: 100%;
-  
-  @media (min-width: 768px) {
-    font-size: 16px;
-  }
+    font-size: 14px;
+    height: 100%;
+
+    @media (min-width: 768px) {
+        font-size: 16px;
+    }
 }
 
 body {
-  font-family: $font-family-base;
-  font-size: $font-size-base;
-  line-height: $line-height-base;
-  color: $text-primary;
-  background-color: $white;
-  margin: 0;
+    font-family: $font-family-base;
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+    color: $text-primary;
+    background-color: $white;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+// Sticky footer layout helpers
+.layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1 0 auto;
+}
+
+.footer-lif {
+    flex-shrink: 0;
+    margin-top: auto;
 }
 
 // Typography

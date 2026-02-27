@@ -27,7 +27,7 @@ using (var scope = app.Services.CreateScope())
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     
     // Create admin user if it doesn't exist
-    var adminEmail = "admin@lif.com";
+    var adminEmail = "info@lifgroup.nl";
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
     if (adminUser == null)
     {

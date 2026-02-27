@@ -16,9 +16,9 @@
         <!-- Layout met sidebar voor ingelogde gebruikers -->
         <div class="d-flex">
             <partial name="_Sidebar" />
-            <div class="content-with-sidebar flex-grow-1">
+            <div class="content-with-sidebar flex-grow-1 d-flex flex-column min-vh-100">
                 <partial name="_Navbar" />
-                <main class="container-fluid p-4">
+                <main class="container-fluid p-4 flex-grow-1">
                     @RenderBody()
                 </main>
                 <partial name="_Footer" />
@@ -28,11 +28,13 @@
     else
     {
         <!-- Standaard layout voor niet-ingelogde gebruikers -->
-        <partial name="_Navbar" />
-        <main class="container py-4">
-            @RenderBody()
-        </main>
-        <partial name="_Footer" />
+        <div class="d-flex flex-column min-vh-100">
+            <partial name="_Navbar" />
+            <main class="container py-4 flex-grow-1">
+                @RenderBody()
+            </main>
+            <partial name="_Footer" />
+        </div>
     }
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
