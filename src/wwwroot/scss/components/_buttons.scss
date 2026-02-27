@@ -1,0 +1,36 @@
+// Button styles
+.btn-lif-primary {
+  @include btn-primary;
+}
+
+.btn-lif-outline {
+  @include btn-base;
+  background-color: transparent;
+  color: $primary-green;
+  border: 2px solid $primary-green;
+  
+  &:hover {
+    background-color: $primary-green;
+    color: $white;
+  }
+}
+
+.btn-lif-secondary {
+  @include btn-base;
+  background-color: $medium-gray;
+  color: $white;
+  
+  &:hover {
+    background-color: darken($medium-gray, 10%);
+  }
+}
+
+// Button group
+.btn-group-lif {
+  display: flex;
+  gap: 0.5rem;
+  
+  .btn {
+    flex: 1;
+  }
+}

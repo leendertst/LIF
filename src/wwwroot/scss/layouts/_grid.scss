@@ -1,0 +1,63 @@
+// Grid layouts
+.product-grid {
+  @include grid-layout(280px, 2rem);
+  margin-top: 2rem;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+}
+
+.content-grid {
+  @include grid-layout(350px, 1.5rem);
+}
+
+// Hero section
+.hero-lif {
+  background: linear-gradient(135deg, $primary-green 0%, $primary-dark 100%);
+  color: $white;
+  padding: 4rem 2rem;
+  text-align: center;
+  border-radius: $border-radius-lg;
+  margin-bottom: 3rem;
+  
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+  }
+  
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+    
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+  }
+}
+
+// Page header
+.page-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid $primary-green;
+  
+  h1 {
+    color: $primary-green;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .breadcrumb {
+    background: none;
+    padding: 0;
+    margin: 0;
+  }
+}

@@ -1,5 +1,3 @@
-﻿//@import "Layout/common";
-
 // Main SCSS file - Import all partials
 
 // 1. Variables & Mixins
@@ -26,26 +24,26 @@
 .btn-link.nav-link:focus,
 .form-control:focus,
 .form-check-input:focus {
-    box-shadow: 0 0 0 0.2rem rgba(92, 184, 92, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(92, 184, 92, 0.25);
 }
 
 // Adjust Bootstrap primary color to match LIF green
 .btn-primary {
-    @extend .btn-lif-primary;
+  @extend .btn-lif-primary;
 }
 
 .btn-outline-primary {
-    @extend .btn-lif-outline;
+  @extend .btn-lif-outline;
 }
 
 .text-primary {
-    color: $primary-green !important;
+  color: $primary-green !important;
 }
 
 .bg-primary {
-    background-color: $primary-green !important;
+  background-color: $primary-green !important;
 }
 
 .border-primary {
-    border-color: $primary-green !important;
+  border-color: $primary-green !important;
 }

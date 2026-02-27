@@ -1,0 +1,87 @@
+// Navbar styling - LIF Group style
+.navbar-lif {
+  background-color: $white;
+  border-bottom: $border-width solid $border-gray;
+  padding: 1rem 0;
+  box-shadow: $box-shadow-sm;
+  
+  .navbar-brand {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: $primary-green !important;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: $transition-fast;
+    
+    &:hover {
+      color: $primary-dark !important;
+    }
+  }
+  
+  .navbar-nav {
+    .nav-link {
+      color: $text-primary;
+      padding: 0.5rem 1rem;
+      font-weight: 500;
+      transition: $transition-fast;
+      position: relative;
+      
+      &:hover {
+        color: $primary-green;
+      }
+      
+      &.active {
+        color: $primary-green;
+        
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 60%;
+          height: 2px;
+          background-color: $primary-green;
+        }
+      }
+    }
+  }
+  
+  .navbar-toggler {
+    border-color: $primary-green;
+    
+    &:focus {
+      box-shadow: 0 0 0 0.25rem rgba(92, 184, 92, 0.25);
+    }
+  }
+}
+
+// User dropdown in navbar
+.user-dropdown {
+  .dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: $text-primary;
+    font-weight: 500;
+    
+    &::after {
+      margin-left: 0.5rem;
+    }
+  }
+  
+  .dropdown-menu {
+    border: $border-width solid $border-gray;
+    box-shadow: $box-shadow;
+    
+    .dropdown-item {
+      padding: 0.5rem 1rem;
+      transition: $transition-fast;
+      
+      &:hover {
+        background-color: $light-gray;
+        color: $primary-green;
+      }
+    }
+  }
+}

@@ -13,7 +13,7 @@ namespace Lif.Data
         }
 
         public DbSet<Product> Producten { get; set; }
-        public DbSet<Klantlog> Klantlogs { get; set; }
+        //public DbSet<Klantlog> Klantlogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

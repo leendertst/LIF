@@ -1,0 +1,82 @@
+// Sidebar styling
+.sidebar-lif {
+  width: 280px;
+  min-height: 100vh;
+  background: linear-gradient(180deg, $dark-gray 0%, darken($dark-gray, 5%) 100%);
+  padding: 1.5rem;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  
+  .sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: $white;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    
+    &:hover {
+      color: $secondary-green;
+    }
+  }
+  
+  .nav-pills {
+    .nav-item {
+      margin-bottom: 0.25rem;
+      
+      .nav-link {
+        color: rgba(255, 255, 255, 0.8);
+        padding: 0.75rem 1rem;
+        border-radius: $border-radius;
+        transition: $transition-fast;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        
+        &:hover {
+          background-color: rgba(92, 184, 92, 0.2);
+          color: $white;
+        }
+        
+        &.active {
+          background-color: $primary-green;
+          color: $white;
+        }
+        
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+  }
+  
+  .sidebar-footer {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    
+    .dropdown-toggle {
+      color: $white;
+      font-weight: 500;
+      padding: 0.5rem;
+      border-radius: $border-radius;
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+}
+
+// Main content area adjustment when sidebar is present
+.content-with-sidebar {
+  margin-left: 280px;
+  min-height: 100vh;
+}

@@ -1,0 +1,68 @@
+// Footer styling
+.footer-lif {
+  background-color: $dark-gray;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 3rem 0 1.5rem;
+  margin-top: 4rem;
+  
+  .footer-section {
+    margin-bottom: 2rem;
+    
+    h5 {
+      color: $primary-green;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+    
+    ul {
+      list-style: none;
+      padding: 0;
+      
+      li {
+        margin-bottom: 0.5rem;
+        
+        a {
+          color: rgba(255, 255, 255, 0.8);
+          transition: $transition-fast;
+          
+          &:hover {
+            color: $primary-green;
+            padding-left: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+  
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1.5rem;
+    margin-top: 2rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.875rem;
+  }
+  
+  .social-links {
+    display: flex;
+    gap: 1rem;
+    
+    a {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $white;
+      transition: $transition-fast;
+      
+      &:hover {
+        background-color: $primary-green;
+        transform: translateY(-3px);
+      }
+    }
+  }
+}

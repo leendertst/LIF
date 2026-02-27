@@ -1,0 +1,60 @@
+// Form styling
+.form-lif {
+  .form-label {
+    font-weight: 500;
+    color: $text-primary;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  
+  .form-control {
+    border: $border-width solid $border-gray;
+    border-radius: $border-radius;
+    padding: 0.625rem 1rem;
+    font-size: 1rem;
+    transition: $transition-fast;
+    
+    &:focus {
+      border-color: $primary-green;
+      box-shadow: 0 0 0 0.2rem rgba(92, 184, 92, 0.25);
+      outline: none;
+    }
+    
+    &.is-invalid {
+      border-color: #dc3545;
+      
+      &:focus {
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+      }
+    }
+  }
+  
+  .form-text {
+    color: $text-secondary;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+  
+  .invalid-feedback {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+}
+
+// Search form
+.search-form {
+  position: relative;
+  
+  .search-input {
+    padding-right: 2.5rem;
+  }
+  
+  .search-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $text-secondary;
+  }
+}

@@ -1,10 +1,52 @@
 ﻿@page
+@using Lif.Models
+@using Microsoft.AspNetCore.Identity
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="hero-lif">
+    <h1><i class="bi bi-flower1"></i> Welkom bij LIF Group</h1>
+    <p>De beste verse kruiden voor een gezondere en groenere samenleving</p>
+    @if (!SignInManager.IsSignedIn(User))
+    {
+        <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-lif-primary btn-lg">
+            Start Nu <i class="bi bi-arrow-right"></i>
+        </a>
+    }
 </div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card-lif text-center">
+            <div class="card-body">
+                <i class="bi bi-flower1 text-primary-green" style="font-size: 3rem;"></i>
+                <h3 class="mt-3">Verse Kruiden</h3>
+                <p class="card-text">Direct van de kwekerij naar jouw keuken</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card-lif text-center">
+            <div class="card-body">
+                <i class="bi bi-heart text-primary-green" style="font-size: 3rem;"></i>
+                <h3 class="mt-3">Gezond Leven</h3>
+                <p class="card-text">Kruiden vol vitamines en mineralen</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card-lif text-center">
+            <div class="card-body">
+                <i class="bi bi-globe text-primary-green" style="font-size: 3rem;"></i>
+                <h3 class="mt-3">Duurzaam</h3>
+                <p class="card-text">Goed voor jou en het milieu</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@inject SignInManager<ApplicationUser> SignInManager
