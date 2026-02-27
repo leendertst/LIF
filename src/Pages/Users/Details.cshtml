@@ -1,0 +1,222 @@
+@page
+@model Lif.Pages.Admin.Users.DetailsModel
+@{
+    ViewData["Title"] = "Gebruiker Details";
+}
+
+<div class="page-header mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a asp-page="Index">
+                    <i class="bi bi-people-fill"></i> Gebruikers
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Details</li>
+        </ol>
+    </nav>
+    <h1><i class="bi bi-person-badge"></i> Gebruiker Details</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="bi bi-info-circle"></i> Gebruikersinformatie
+                </h5>
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-3">
+                        <i class="bi bi-envelope me-2"></i>Email
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Model.ApplicationUser.Email
+                    </dd>
+
+                    <dt class="col-sm-3">
+                        <i class="bi bi-person me-2"></i>Gebruikersnaam
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Model.ApplicationUser.UserName
+                    </dd>
+
+                    <dt class="col-sm-3">
+                        <i class="bi bi-shield-check me-2"></i>Rollen
+                    </dt>
+                    <dd class="col-sm-9">
+                        @if (Model.Roles.Any())
+                        {
+                            foreach (var role in Model.Roles)
+                            {
+                                var badgeClass = role.ToLower() switch
+                                {
+                                    "admin" => "bg-danger",
+                                    "user" => "bg-primary",
+                                    _ => "bg-secondary"
+                                };
+                                <span class="badge @badgeClass me-1">
+                                    <i class="bi bi-shield-fill-check"></i> @role
+                                </span>
+                            }
+                        }
+                        else
+                        {
+                            <span class="text-muted">Geen rollen toegewezen</span>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-3">
+                        <i class="bi bi-check-circle me-2"></i>Email bevestigd
+                    </dt>
+                    <dd class="col-sm-9">
+                        @if (Model.ApplicationUser.EmailConfirmed)
+                        {
+                            <span class="badge bg-success">
+                                <i class="bi bi-check-circle-fill"></i> Ja
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning">
+                                <i class="bi bi-x-circle-fill"></i> Nee
+                            </span>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-3">
+                        <i class="bi bi-telephone me-2"></i>Telefoonnummer
+                    </dt>
+                    <dd class="col-sm-9">
+                        @if (!string.IsNullOrEmpty(Model.ApplicationUser.PhoneNumber))
+                        {
+                            @Model.ApplicationUser.PhoneNumber
+                        }
+                        else
+                        {
+                            <span class="text-muted">Niet ingevuld</span>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-3">
+                        <i class="bi bi-telephone-check me-2"></i>Telefoonnummer bevestigd
+                    </dt>
+                    <dd class="col-sm-9">
+                        @if (Model.ApplicationUser.PhoneNumberConfirmed)
+                        {
+                            <span class="badge bg-success">
+                                <i class="bi bi-check-circle-fill"></i> Ja
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                <i class="bi bi-x-circle-fill"></i> Nee
+                            </span>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-3">
+                        <i class="bi bi-lock me-2"></i>Twee-factor authenticatie
+                    </dt>
+                    <dd class="col-sm-9">
+                        @if (Model.ApplicationUser.TwoFactorEnabled)
+                        {
+                            <span class="badge bg-success">
+                                <i class="bi bi-shield-fill-check"></i> Ingeschakeld
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                <i class="bi bi-shield-fill-x"></i> Uitgeschakeld
+                            </span>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-3">
+                        <i class="bi bi-calendar-event me-2"></i>Account vergrendeld tot
+                    </dt>
+                    <dd class="col-sm-9">
+                        @if (Model.ApplicationUser.LockoutEnd.HasValue && Model.ApplicationUser.LockoutEnd > DateTimeOffset.Now)
+                        {
+                            <span class="badge bg-danger">
+                                <i class="bi bi-lock-fill"></i> @Model.ApplicationUser.LockoutEnd.Value.LocalDateTime.ToString("dd-MM-yyyy HH:mm")
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="text-muted">Niet vergrendeld</span>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-3">
+                        <i class="bi bi-key me-2"></i>Gebruiker ID
+                    </dt>
+                    <dd class="col-sm-9">
+                        <code>@Model.ApplicationUser.Id</code>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a asp-page="Edit" asp-route-id="@Model.ApplicationUser.Id" class="btn btn-warning">
+                <i class="bi bi-pencil"></i> Bewerken
+            </a>
+            <a asp-page="Index" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Terug naar lijst
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    <i class="bi bi-activity"></i> Acties
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a asp-page="Edit" asp-route-id="@Model.ApplicationUser.Id" class="btn btn-outline-warning">
+                        <i class="bi bi-pencil"></i> Gebruiker bewerken
+                    </a>
+                    
+                    @if (Model.Roles.Contains("admin"))
+                    {
+                        <div class="alert alert-warning mb-0 mt-2">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            <small>Let op: Dit is een admin gebruiker</small>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header bg-secondary text-white">
+                <h6 class="mb-0">
+                    <i class="bi bi-info-circle"></i> Statistieken
+                </h6>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2">
+                        <i class="bi bi-shield-check text-primary"></i>
+                        <strong>Rollen:</strong> @Model.Roles.Count
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-check-circle text-success"></i>
+                        <strong>Email bevestigd:</strong> @(Model.ApplicationUser.EmailConfirmed ? "Ja" : "Nee")
+                    </li>
+                    <li>
+                        <i class="bi bi-lock text-info"></i>
+                        <strong>2FA:</strong> @(Model.ApplicationUser.TwoFactorEnabled ? "Ja" : "Nee")
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

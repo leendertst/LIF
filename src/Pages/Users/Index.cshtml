@@ -4,24 +4,192 @@
     ViewData["Title"] = "Gebruikersbeheer";
 }
 
-<h1>Gebruikersbeheer</h1>
+<div class="page-header mb-4">
+    <h1><i class="bi bi-people-fill"></i> Gebruikersbeheer</h1>
+</div>
 
-<a asp-page="Create" class="btn btn-primary mb-3">Nieuwe gebruiker</a>
+<div class="row mb-4">
+    <div class="col-md-8">
+        <a asp-page="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Nieuwe gebruiker
+        </a>
+    </div>
+</div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Email</th>
-            <th>Rollen</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model.Users)
+<!-- Zoek en filter sectie -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-6">
+                <label for="searchQuery" class="form-label">
+                    <i class="bi bi-search"></i> Zoeken
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text" 
+                           class="form-control" 
+                           id="searchQuery"
+                           name="SearchQuery" 
+                           value="@Model.SearchQuery" 
+                           placeholder="Zoek op email of gebruikersnaam...">
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <label for="roleFilter" class="form-label">
+                    <i class="bi bi-shield-check"></i> Filter op rol
+                </label>
+                <select class="form-select" id="roleFilter" name="RoleFilter">
+                    <option value="" selected="@(string.IsNullOrEmpty(Model.RoleFilter))">
+                        Alle rollen
+                    </option>
+                    @foreach (var role in Model.AvailableRoles)
+                    {
+                        <option value="@role" selected="@(Model.RoleFilter == role)">
+                            @role
+                        </option>
+                    }
+                </select>
+            </div>
+            
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-funnel"></i> Toepassen
+                </button>
+            </div>
+        </form>
+        
+        @if (!string.IsNullOrWhiteSpace(Model.SearchQuery) || !string.IsNullOrEmpty(Model.RoleFilter))
         {
-            <tr>
-                <td>@user.Email</td>
-                <td>@string.Join(", ", await Model.UserManager.GetRolesAsync(user))</td>
-            </tr>
+            <div class="mt-3">
+                <a asp-page="Index" class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-x-circle"></i> Filters wissen
+                </a>
+                @if (!string.IsNullOrWhiteSpace(Model.SearchQuery))
+                {
+                    <span class="badge bg-info ms-2">
+                        Zoeken: "@Model.SearchQuery"
+                    </span>
+                }
+                @if (!string.IsNullOrWhiteSpace(Model.RoleFilter))
+                {
+                    var badgeClass = Model.RoleFilter.ToLower() switch
+                    {
+                        "admin" => "bg-danger",
+                        "user" => "bg-primary",
+                        _ => "bg-secondary"
+                    };
+                    <span class="badge @badgeClass ms-2">
+                        <i class="bi bi-shield-fill-check"></i> Rol: @Model.RoleFilter
+                    </span>
+                }
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>
+
+<!-- Resultaten tabel -->
+<div class="card">
+    <div class="card-body">
+        @if (Model.Users.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                <i class="bi bi-envelope"></i> Email
+                            </th>
+                            <th>
+                                <i class="bi bi-person"></i> Gebruikersnaam
+                            </th>
+                            <th>
+                                <i class="bi bi-shield-check"></i> Rollen
+                            </th>
+                            <th>Acties</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Users)
+                        {
+                            <tr style="cursor: pointer;" onclick="window.location.href='@Url.Page("Details", new { id = user.Id })'">
+                                <td>
+                                    @user.Email
+                                </td>
+                                <td>
+                                    @user.UserName
+                                </td>
+                                <td>
+                                    @{
+                                        var roles = await Model.UserManager.GetRolesAsync(user);
+                                        foreach (var role in roles)
+                                        {
+                                            var badgeClass = role.ToLower() switch
+                                            {
+                                                "admin" => "bg-danger",
+                                                "user" => "bg-primary",
+                                                _ => "bg-secondary"
+                                            };
+                                            <span class="badge @badgeClass me-1">
+                                                <i class="bi bi-shield-fill-check"></i> @role
+                                            </span>
+                                        }
+                                        if (!roles.Any())
+                                        {
+                                            <span class="text-muted">Geen rollen</span>
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-page="Details" 
+                                       asp-route-id="@user.Id" 
+                                       class="btn btn-sm btn-info"
+                                       onclick="event.stopPropagation();"
+                                       title="Bekijk details">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a asp-page="Edit" 
+                                       asp-route-id="@user.Id" 
+                                       class="btn btn-sm btn-warning"
+                                       onclick="event.stopPropagation();"
+                                       title="Bewerk gebruiker">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-3">
+                <small class="text-muted">
+                    <i class="bi bi-info-circle"></i> 
+                    @Model.Users.Count gebruiker(s) gevonden
+                    @if (!string.IsNullOrEmpty(Model.RoleFilter))
+                    {
+                        <span>met rol <strong>@Model.RoleFilter</strong></span>
+                    }
+                </small>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info" role="alert">
+                <i class="bi bi-info-circle me-2"></i>
+                Geen gebruikers gevonden
+                @if (!string.IsNullOrWhiteSpace(Model.RoleFilter))
+                {
+                    <span>met rol <strong>@Model.RoleFilter</strong></span>
+                }
+                @if (!string.IsNullOrWhiteSpace(Model.SearchQuery))
+                {
+                    <span>voor zoekopdracht "<strong>@Model.SearchQuery</strong>"</span>
+                }.
+                <a asp-page="Index" class="alert-link">Filters wissen</a>
+            </div>
+        }
+    </div>
+</div>
